@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uwef_admin.LoginController">
+   <children>
+      <TextField fx:id="txtUsername" layoutX="326.0" layoutY="220.0" onAction="#Login" promptText="Username" />
+      <PasswordField fx:id="txtPass" layoutX="326.0" layoutY="252.0" onAction="#Login" promptText="Password" />
+      <Button fx:id="btnOk" layoutX="428.0" layoutY="286.0" mnemonicParsing="false" onAction="#Login" prefHeight="25.0" prefWidth="47.0" text="OK" />
+      <Label fx:id="lblLogin" focusTraversable="false" layoutX="377.0" layoutY="189.0" text="LOGIN">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="lblInvalid" focusTraversable="false" layoutX="326.0" layoutY="290.0" text="Invalid User/Pass" textFill="#fc0000" visible="false" />
+      <Label fx:id="lblMUser" focusTraversable="false" layoutX="317.0" layoutY="224.0" text="*" textFill="RED" visible="false" />
+      <Label fx:id="lblMPass" focusTraversable="false" layoutX="317.0" layoutY="256.0" text="*" textFill="RED" visible="false" />
+   </children>
+</AnchorPane>

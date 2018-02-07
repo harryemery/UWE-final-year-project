@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.web.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uwef_admin.HomeController">
+   <center>
+      <Accordion fx:id="accPane" prefHeight="447.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+        <panes>
+          <TitledPane fx:id="titleStudents" animated="false" text="Students">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="btnWarnings" layoutX="27.0" layoutY="27.0" mnemonicParsing="false" onAction="#viewWarnings" prefHeight="25.0" prefWidth="106.0" text="View Warnings" />
+                        <Button fx:id="btnBan" layoutX="27.0" layoutY="94.0" mnemonicParsing="false" onAction="#banStudent" prefHeight="25.0" prefWidth="106.0" text="Ban Student" />
+                        <Button fx:id="btnUnban" layoutX="27.0" layoutY="127.0" mnemonicParsing="false" onAction="#unBanStudent" prefHeight="25.0" prefWidth="106.0" text="Unban Student" />
+                        <Button fx:id="btnBanned" layoutX="27.0" layoutY="60.0" mnemonicParsing="false" onAction="#viewBanned" text="View Banned List" />
+                        <Label fx:id="lblStudentTitle" layoutX="399.0" layoutY="6.0" text="Warnings List" />
+                        <TableView fx:id="tblStudents" layoutX="153.0" layoutY="27.0" prefHeight="355.0" prefWidth="623.0" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </TitledPane>
+          <TitledPane animated="false" text="Staff">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ListView fx:id="lstLecturer" layoutX="14.0" layoutY="14.0" prefHeight="350.0" prefWidth="187.0" />
+                        <ComboBox fx:id="comboModule" layoutX="209.0" layoutY="14.0" onAction="#fillGraphs" prefHeight="25.0" prefWidth="368.0" />
+                        <TabPane layoutX="209.0" layoutY="47.0" prefHeight="336.0" prefWidth="581.0" tabClosingPolicy="UNAVAILABLE">
+                          <tabs>
+                            <Tab text="Punctuality">
+                              <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <PieChart fx:id="chrtTimeBar" layoutX="1.0" layoutY="-1.0" prefHeight="310.0" prefWidth="290.0" title="Average" />
+                                          <Label layoutX="386.0" layoutY="110.0" text="Average Lateness:" />
+                                          <Label fx:id="lblLatest" layoutX="407.0" layoutY="137.0" text="X minutes" textAlignment="CENTER" />
+                                       </children>
+                                    </AnchorPane>
+                              </content>
+                            </Tab>
+                            <Tab text="Engagement">
+                              <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <LineChart fx:id="chrtEngageLine" layoutX="291.0" layoutY="1.0" prefHeight="305.0" prefWidth="290.0" title="Modules by Week">
+                                             <xAxis>
+                                                <CategoryAxis side="BOTTOM" />
+                                             </xAxis>
+                                             <yAxis>
+                                                <NumberAxis side="LEFT" />
+                                             </yAxis>
+                                          </LineChart>
+                                          <PieChart fx:id="chrtEngagePie" prefHeight="305.0" prefWidth="290.0" title="Average" />
+                                       </children>
+                                    </AnchorPane>
+                              </content>
+                            </Tab>
+                              <Tab text="Materials">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <PieChart fx:id="chrtMaterials" layoutX="41.0" layoutY="-46.0" prefHeight="307.0" prefWidth="581.0" title="Prepared and Effective Materials" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                       </children>
+                                    </AnchorPane>
+                                </content>
+                              </Tab>
+                              <Tab text="Value">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <PieChart fx:id="chrtValue" prefHeight="307.0" prefWidth="581.0" title="Value Added to Lectures" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                       </children>
+                                    </AnchorPane>
+                                </content>
+                              </Tab>
+                              <Tab text="Lecture Score">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <PieChart fx:id="chrtLecturePie" layoutY="1.0" prefHeight="305.0" prefWidth="290.0" title="Average" />
+                                          <LineChart fx:id="chrtLectureLine" layoutX="290.0" layoutY="1.0" prefHeight="305.0" prefWidth="290.0" title="Modules by Week">
+                                            <xAxis>
+                                              <CategoryAxis side="BOTTOM" />
+                                            </xAxis>
+                                            <yAxis>
+                                              <NumberAxis side="LEFT" />
+                                            </yAxis>
+                                          </LineChart>
+                                       </children>
+                                    </AnchorPane>
+                                </content>
+                              </Tab>
+                              <Tab text="Lecturer Score">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <LineChart fx:id="chrtLecturerLine" layoutX="291.0" layoutY="1.0" prefHeight="305.0" prefWidth="290.0" title="Modules by Week">
+                                             <xAxis>
+                                                <CategoryAxis side="BOTTOM" />
+                                             </xAxis>
+                                             <yAxis>
+                                                <NumberAxis side="LEFT" />
+                                             </yAxis>
+                                          </LineChart>
+                                          <PieChart fx:id="chrtLecturerPie" prefHeight="305.0" prefWidth="290.0" title="Average" />
+                                       </children>
+                                    </AnchorPane>
+                                </content>
+                              </Tab>
+                              <Tab text="Other">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <ListView fx:id="lstOther" layoutY="6.0" prefHeight="307.0" prefWidth="581.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                       </children>
+                                    </AnchorPane>
+                                </content>
+                              </Tab>
+                          </tabs>
+                        </TabPane>
+                        <Button fx:id="btnViewSelected" layoutX="111.0" layoutY="367.0" mnemonicParsing="false" onAction="#populateComboBox" text="View Selected" />
+                     </children></AnchorPane>
+            </content>
+          </TitledPane>
+          <TitledPane animated="false" text="Surveys">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TextArea fx:id="txtEditor" layoutX="14.0" layoutY="38.0" prefHeight="308.0" prefWidth="370.0" />
+                        <MenuBar fx:id="menuBar" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="370.0">
+                          <menus>
+                            <Menu mnemonicParsing="false" text="File">
+                              <items>
+                                    <MenuItem mnemonicParsing="false" onAction="#saveSurvey" text="Save" />
+                                <MenuItem mnemonicParsing="false" text="Close" />
+                              </items>
+                            </Menu>
+                            <Menu mnemonicParsing="false" text="Edit">
+                              <items>
+                                <MenuItem mnemonicParsing="false" text="Delete" />
+                              </items>
+                            </Menu>
+                            <Menu mnemonicParsing="false" text="Help">
+                              <items>
+                                <MenuItem mnemonicParsing="false" text="About" />
+                              </items>
+                            </Menu>
+                          </menus>
+                        </MenuBar>
+                        <WebView fx:id="webView" layoutX="414.0" layoutY="13.0" prefHeight="332.0" prefWidth="370.0" />
+                        <Button fx:id="btnShortSurvey" layoutX="14.0" layoutY="356.0" mnemonicParsing="false" onAction="#shortSurvey" text="Short Survey" />
+                        <Button fx:id="btnLongSurvey" layoutX="101.0" layoutY="356.0" mnemonicParsing="false" onAction="#longSurvey" text="Long Survey" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </TitledPane>
+        </panes>
+      </Accordion>
+   </center>
+   <top>
+      <AnchorPane prefHeight="29.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="btnLogout" layoutX="741.0" layoutY="2.0" mnemonicParsing="false" onAction="#logout" text="Log Out" />
+            <Label fx:id="lblUsername" layoutX="14.0" layoutY="6.0" text="Username" />
+         </children>
+      </AnchorPane>
+   </top>
+</BorderPane>

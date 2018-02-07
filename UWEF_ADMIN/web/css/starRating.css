@@ -1,0 +1,28 @@
+div.stars {
+  width: 200px;
+  display: inline-block;
+}
+
+input.star { display: none; }
+
+label.star {
+  float: right;
+  font-size: 36px;
+  color: lightgrey;
+  transition: all .2s;
+  cursor: pointer;
+}
+
+input.star:checked ~ label.star:before {
+  content: '\2605';
+  color: #FD4;
+  transition: all .25s;
+}
+
+
+input.star-1:checked ~ label.star:before { color: #F62; }
+label.star:hover { transform: scale(1.2); }
+
+label.star:before {
+  content: '\2605';
+}

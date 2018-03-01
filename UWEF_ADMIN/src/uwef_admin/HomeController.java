@@ -15,9 +15,16 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -31,6 +38,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -117,7 +125,6 @@ public class HomeController implements Initializable {
     private ObservableList banned = FXCollections.observableArrayList();
     private ObservableList staff = FXCollections.observableArrayList();
     private ObservableList modules = FXCollections.observableArrayList();
-   
 
     String loc = "C:\\Users\\Harry\\Documents\\NetBeansProjects\\UWE Feedback\\web\\shortForm.jsp";
 
@@ -443,17 +450,16 @@ public class HomeController implements Initializable {
         ArrayList<Result> results = new ArrayList();
         int[] lateNum = new int[13];
         int total = 0;
-        int yes = 0;
-        int no = 0;
-        int myes = 0;
-        int mno = 0;
-        
+        int yes = 0, no = 0;
+        int myes = 0, mno = 0;
+        int lyes = 0, lno = 0;
+
         Connection con = DriverManager.getConnection(DBController.HOST, DBController.USER, DBController.PASS);
         Module m = (Module) modules.get(comboModule.getSelectionModel().getSelectedIndex());
         String sql = "SELECT * FROM RESULTS_SH WHERE MODULEID='" + m.getID() + "' AND STAFFID='" + selectedStaff.getStaffID() + "'";
         PreparedStatement pstate = con.prepareStatement(sql);
         ResultSet rs = pstate.executeQuery();
-        
+
         while (rs.next()) {
             Result r = new Result(rs.getString("MODULEID"), rs.getString("STAFFID"), rs.getInt("MINS_LATE"), rs.getBoolean("ENGAGING"), rs.getBoolean("GOOD_MATERIALS"), rs.getBoolean("L_VALUE"), rs.getInt("LECTURE_SCORE"), rs.getInt("LECTURER_SCORE"), rs.getDate("DATE"));
             results.add(r);
@@ -464,17 +470,23 @@ public class HomeController implements Initializable {
             } else {
                 lateNum[0]++;
             }
-            
-            if(r.getLValue()){
+
+            if (r.getLValue()) {
                 yes++;
             } else {
                 no++;
             }
 
-            if(r.getMaterials()){
+            if (r.getMaterials()) {
                 myes++;
             } else {
                 mno++;
+            }
+
+            if (r.getEngaging()) {
+                lyes++;
+            } else {
+                lno++;
             }
         }
 
@@ -498,19 +510,88 @@ public class HomeController implements Initializable {
             double meanlate = total / results.size();
             lblLatest.setText(String.format("%.2f Minutes", meanlate));
 
-            //VALUE ADDED
-            ObservableList<PieChart.Data> pieValue = FXCollections.observableArrayList(
-                    new PieChart.Data("Yes", yes),
-                    new PieChart.Data("No", no)
+            //ENGAGEMENT
+            ObservableList<PieChart.Data> pieEngagement = FXCollections.observableArrayList(
+                    new PieChart.Data("Yes", lyes),
+                    new PieChart.Data("No", lno)
             );
-            chrtValue.setData(pieValue);
-            
+            chrtEngagePie.setData(pieEngagement);
+
             //MATERIALS
             ObservableList<PieChart.Data> pieMaterial = FXCollections.observableArrayList(
                     new PieChart.Data("Yes", myes),
                     new PieChart.Data("No", mno)
             );
             chrtMaterials.setData(pieMaterial);
+
+            //VALUE ADDED
+            ObservableList<PieChart.Data> pieValue = FXCollections.observableArrayList(
+                    new PieChart.Data("Yes", yes),
+                    new PieChart.Data("No", no)
+            );
+            chrtValue.setData(pieValue);
+
+            //LECTURE SCORE
+            ObservableList<PieChart.Data> pieLScore = FXCollections.observableArrayList();
+            ArrayList<Integer> lscores = new ArrayList();
+            for (Result r : results) {
+                lscores.add(r.LectureScore);
+            }
+            Set<Integer> lscoresHash = new HashSet();
+            lscoresHash.addAll(lscores);
+            for (int i : lscoresHash) {
+                pieLScore.add(new PieChart.Data(Integer.toString(i), Collections.frequency(lscores, i)));
+            }
+            chrtLecturePie.setData(pieLScore);
+
+            //LECTURER SCORE
+            ObservableList<PieChart.Data> pieLrScore = FXCollections.observableArrayList();
+            ArrayList<Integer> lrscores = new ArrayList();
+            for (Result r : results) {
+                lrscores.add(r.LecturerScore);
+            }
+            Set<Integer> lrscoresHash = new HashSet();
+            lrscoresHash.addAll(lrscores);
+            for (int i : lrscoresHash) {
+                pieLrScore.add(new PieChart.Data(Integer.toString(i), Collections.frequency(lrscores, i)));
+            }
+            chrtLecturerPie.setData(pieLrScore);
+
+            //LECTURER SCORE LINE
+            XYChart.Series lrSeries = new XYChart.Series();
+            Set<Date> lrDates = new HashSet();
+            Date date = new Date();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            int thisWeek = cal.getWeekYear();
+            
+            
+            
+            for(Result r : results){
+                cal.setTime(r.getDate());
+                int week = cal.getWeekYear();
+                if(thisWeek - week <= 5){
+                    lrDates.add(r.getDate());
+                }
+            }
+            
+            for(Result r : results){
+                for(Date d : lrDates){
+                    if(r.getDate() == d){
+                        
+                    }
+                }
+            }
+            
+            
+            for(Date d : lrDates){
+                lrSeries.getData().add(new XYChart.Data(d.toString(), Collections.frequency(lrDates, d)));
+            }
+            
+            chrtLecturerLine.getData().add(lrSeries);
+            
+            
+
         }
 
         con.close();

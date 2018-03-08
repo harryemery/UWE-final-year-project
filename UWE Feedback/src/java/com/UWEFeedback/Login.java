@@ -30,6 +30,8 @@ import javax.servlet.http.HttpSession;
  */
 public class Login extends HttpServlet {
 
+    
+    String username = null;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -44,6 +46,8 @@ public class Login extends HttpServlet {
        
        
     }
+    
+    
     //finds user in database by username and password, returns the found user.
     public static User getUser(String uname, String pass){
         String dbUser, dbPass, dbStatus;
@@ -105,6 +109,7 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
         //take values from login.jsp
         String uname = request.getParameter("username");
+        request.getSession().setAttribute("USERNAME", uname);
         String pass = request.getParameter("password");
         
         try{

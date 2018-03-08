@@ -1,8 +1,4 @@
-<%-- 
-    Document   : login
-    Created on : 06-Nov-2017, 11:27:06
-    Author     : Colin Berry
---%>
+
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <link href="css/index.css" rel="stylesheet"/>
